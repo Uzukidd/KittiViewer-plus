@@ -22,13 +22,13 @@ import numpy as np
 #import OpenGL.GL as pygl
 #import pyqtgraph.opengl as gl
 #import skimage
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QTimer, pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QIcon, QMouseEvent, QPainter
-from PyQt5.QtWidgets import (
+from PyQt6 import QtCore, QtGui
+from PyQt6.QtCore import QTimer, pyqtSignal, pyqtSlot
+from PyQt6.QtGui import QIcon, QMouseEvent, QPainter
+from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
     QComboBox,
@@ -237,7 +237,7 @@ class MatPlotLibView(FigureCanvas):
         # self.ax.axes([0, 0.6, 1, 1])
         FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)
-        FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
+        FigureCanvas.setSizePolicy(self, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         FigureCanvas.updateGeometry(self)
         self.draw()
 
@@ -260,7 +260,7 @@ class MatPlotLibViewTab(QWidget):
         self.setParent(parent)
         # self.axes.set_ylim([-1,1])
         # self.axes.set_xlim([0,31.4159*2])
-        FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
+        FigureCanvas.setSizePolicy(self, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         FigureCanvas.updateGeometry(self)
         self.draw()
 
@@ -1855,4 +1855,4 @@ class KittiViewer(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ex = KittiViewer()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

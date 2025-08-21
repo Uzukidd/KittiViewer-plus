@@ -3,10 +3,10 @@ from enum import Enum
 import numpy as np
 from pyqtgraph.Vector import Vector
 import pyqtgraph.opengl as gl
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QTimer, pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QIcon, QMouseEvent, QPainter
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
+from PyQt6 import QtCore, QtGui
+from PyQt6.QtCore import QTimer, pyqtSignal, pyqtSlot
+from PyQt6.QtGui import QIcon, QMouseEvent, QPainter
+from PyQt6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
                              QFormLayout, QGroupBox, QHBoxLayout, QLabel,
                              QLineEdit, QMainWindow, QPlainTextEdit,
                              QPushButton, QSizePolicy, QVBoxLayout, QWidget)
@@ -171,10 +171,10 @@ class KittiGLViewWidget(gl.GLViewWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self._named_items = {}
-        self.noRepeatKeys.append(QtCore.Qt.Key_W)
-        self.noRepeatKeys.append(QtCore.Qt.Key_S)
-        self.noRepeatKeys.append(QtCore.Qt.Key_A)
-        self.noRepeatKeys.append(QtCore.Qt.Key_D)
+        self.noRepeatKeys.append(QtCore.Qt.Key.Key_W)
+        self.noRepeatKeys.append(QtCore.Qt.Key.Key_S)
+        self.noRepeatKeys.append(QtCore.Qt.Key.Key_A)
+        self.noRepeatKeys.append(QtCore.Qt.Key.Key_D)
         self.w_gl_axis = gl.GLAxisItem(
             size=None, antialias=True, glOptions='translucent')
         self.addItem(self.w_gl_axis)
@@ -331,27 +331,27 @@ class KittiGLViewWidget(gl.GLViewWidget):
         world_speed = 0.32
         if len(self.keysPressed) > 0:
             for key in self.keysPressed:
-                if key == QtCore.Qt.Key_Right:
+                if key == QtCore.Qt.Key.Key_Right:
                     self.orbit(azim=-speed, elev=0)
-                elif key == QtCore.Qt.Key_Left:
+                elif key == QtCore.Qt.Key.Key_Left:
                     self.orbit(azim=speed, elev=0)
-                elif key == QtCore.Qt.Key_Up:
+                elif key == QtCore.Qt.Key.Key_Up:
                     self.orbit(azim=0, elev=-speed)
-                elif key == QtCore.Qt.Key_Down:
+                elif key == QtCore.Qt.Key.Key_Down:
                     self.orbit(azim=0, elev=speed)
-                elif key == QtCore.Qt.Key_W:
+                elif key == QtCore.Qt.Key.Key_W:
                     self.camera_move(dx=world_speed)
-                elif key == QtCore.Qt.Key_S:
+                elif key == QtCore.Qt.Key.Key_S:
                     self.camera_move(dx=-world_speed)
-                elif key == QtCore.Qt.Key_A:
+                elif key == QtCore.Qt.Key.Key_A:
                     self.camera_move(dy=world_speed)
-                elif key == QtCore.Qt.Key_D:
+                elif key == QtCore.Qt.Key.Key_D:
                     self.camera_move(dy=-world_speed)
-                elif key == QtCore.Qt.Key_Backspace:
+                elif key == QtCore.Qt.Key.Key_Backspace:
                     self.reset_camera()
-                elif key == QtCore.Qt.Key_PageUp:
+                elif key == QtCore.Qt.Key.Key_PageUp:
                     pass
-                elif key == QtCore.Qt.Key_PageDown:
+                elif key == QtCore.Qt.Key.Key_PageDown:
                     pass
                 self.keyTimer.start(16)
         else:
@@ -409,7 +409,7 @@ class KittiGLViewWidget(gl.GLViewWidget):
 
     def mousePressEvent(self, ev):
         super().mousePressEvent(ev)
-        self.mousePressed.emit((ev.x(), ev.y()))
+        self.mousePressed.emit((ev.position().x, ev.position().y))
         # print(ev.x(), ev.y())
     def mouseReleaseEvent(self, ev):
 

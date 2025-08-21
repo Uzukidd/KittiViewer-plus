@@ -3,10 +3,10 @@ import enum
 from functools import partial
 import json
 import numpy as np
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QTimer, pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QIcon, QMouseEvent, QPainter, QColor
-from PyQt5.QtWidgets import (
+from PyQt6 import QtCore, QtGui
+from PyQt6.QtCore import QTimer, pyqtSignal, pyqtSlot
+from PyQt6.QtGui import QIcon, QMouseEvent, QPainter, QColor
+from PyQt6.QtWidgets import (
     QApplication, QCheckBox, QComboBox, QDialog, QDoubleSpinBox, QFormLayout,
     QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPlainTextEdit,
     QPushButton, QSizePolicy, QSlider, QTabWidget, QVBoxLayout, QWidget, QColorDialog)
@@ -24,7 +24,7 @@ class QFloatSlider(QSlider):
                  stop,
                  num,
                  default_value=0,
-                 orientation=QtCore.Qt.Horizontal,
+                 orientation=QtCore.Qt.Orientation.Horizontal,
                  parent=None):
         super().__init__(orientation, parent=parent)
         self._start = start

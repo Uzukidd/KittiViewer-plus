@@ -80,18 +80,38 @@ def is_line_segment_cross(lines1, lines2):
         _ccw(A, C, D) != _ccw(B, C, D),
         _ccw(A, B, C) != _ccw(A, B, D))
 
-
-@numba.jit(nopython=False)
+@numba.jit(nopython=True)
 def surface_equ_3d_jit(polygon_surfaces):
-    # return [a, b, c], d in ax+by+cz+d=0
-    # polygon_surfaces: [num_polygon, num_surfaces, num_points_of_polygon, 3]
-    surface_vec = polygon_surfaces[:, :, :2, :] - polygon_surfaces[:, :, 1:3, :]
-    # normal_vec: [..., 3]
-    normal_vec = np.cross(surface_vec[:, :, 0, :], surface_vec[:, :, 1, :])
-    # print(normal_vec.shape, points[..., 0, :].shape)
-    # d = -np.inner(normal_vec, points[..., 0, :])
-    d = np.einsum('aij, aij->ai', normal_vec, polygon_surfaces[:, :, 0, :])
-    return normal_vec, -d
+    polygon_surfaces = np.ascontiguousarray(polygon_surfaces)
+    num_polygon = polygon_surfaces.shape[0]
+    num_surfaces = polygon_surfaces.shape[1]
+
+    normal_vec = np.zeros((num_polygon, num_surfaces, 3), dtype=polygon_surfaces.dtype)
+    d = np.zeros((num_polygon, num_surfaces), dtype=polygon_surfaces.dtype)
+
+    for i in range(num_polygon):
+        for j in range(num_surfaces):
+            vec0 = polygon_surfaces[i, j, 0, :] - polygon_surfaces[i, j, 1, :]
+            vec1 = polygon_surfaces[i, j, 1, :] - polygon_surfaces[i, j, 2, :]
+
+            normal = np.cross(vec0, vec1)
+            normal_vec[i, j, :] = normal
+
+            d[i, j] = -np.dot(normal, polygon_surfaces[i, j, 0, :])
+
+    return normal_vec, d
+
+# @numba.jit(nopython=False)
+# def surface_equ_3d_jit(polygon_surfaces):
+#     # return [a, b, c], d in ax+by+cz+d=0
+#     # polygon_surfaces: [num_polygon, num_surfaces, num_points_of_polygon, 3]
+#     surface_vec = polygon_surfaces[:, :, :2, :] - polygon_surfaces[:, :, 1:3, :]
+#     # normal_vec: [..., 3]
+#     normal_vec = np.cross(surface_vec[:, :, 0, :], surface_vec[:, :, 1, :])
+#     # print(normal_vec.shape, points[..., 0, :].shape)
+#     # d = -np.inner(normal_vec, points[..., 0, :])
+#     d = np.einsum('aij, aij->ai', normal_vec, polygon_surfaces[:, :, 0, :])
+#     return normal_vec, -d
 
 
 @numba.jit(nopython=False)
